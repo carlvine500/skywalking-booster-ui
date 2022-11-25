@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. -->
 <template>
-  <div>
+  <span>
     <span class="grey">{{ t("tags") }}: </span>
     <span v-if="tagsList.length" class="trace-tags">
       <span class="selected" v-for="(item, index) in tagsList" :key="index">
@@ -68,7 +68,7 @@ limitations under the License. -->
       </el-tooltip>
       <b v-if="type === 'ALARM'">{{ t("noticeTag") }}</b>
     </span>
-  </div>
+  </span>
 </template>
 <script lang="ts" setup>
 import { ref, watch } from "vue";

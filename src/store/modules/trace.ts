@@ -55,7 +55,13 @@ export const traceStore = defineStore({
   }),
   actions: {
     setTraceCondition(data: any) {
+      if (data.traceId) {
+        delete data.serviceId;
+      }
       this.conditions = { ...this.conditions, ...data };
+      if (this.conditions.traceId) {
+        delete this.conditions.serviceId;
+      }
     },
     setCurrentTrace(trace: Trace) {
       this.currentTrace = trace;

@@ -30,6 +30,9 @@ limitations under the License. -->
       <span title="refresh" class="ghost ml-5 cp" @click="handleReload">
         <Icon iconName="retry" :loading="appStore.autoRefresh" class="middle" />
       </span>
+      <span title="refresh" class="ghost ml-5 cp" @click="currentDay">
+        近4小时
+      </span>
       <span class="version ml-5 cp">
         <el-popover
           trigger="hover"
@@ -90,6 +93,13 @@ function changeTimeRange(val: Date[] | any) {
   }
   appStore.setDuration(timeFormat(val));
 }
+const currentDay = () => {
+  var end = new Date();
+  var start = new Date();
+  start.setTime(start.getTime() - 3600 * 1000 * 4); //1 day
+  time.value = [start, end];
+  changeTimeRange(time.value);
+};
 setConfig(String(route.meta.title));
 watch(
   () => route.meta.title,

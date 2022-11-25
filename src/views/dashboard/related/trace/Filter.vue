@@ -56,12 +56,10 @@ limitations under the License. -->
         @change="changeField('status', $event)"
       />
     </div>
-    <el-button
-      size="small"
-      type="primary"
-      @click="searchTraces"
-      class="search-btn"
-    >
+    <el-button size="small" type="primary" @click="clearSearch" class="btn">
+      清除条件
+    </el-button>
+    <el-button size="small" type="primary" @click="searchTraces" class="btn">
       {{ t("search") }}
     </el-button>
   </div>
@@ -85,11 +83,14 @@ limitations under the License. -->
         v-model="maxTraceDuration"
         type="number"
       />
+      <span>
+        <ConditionTags :type="'TRACE'" @update="updateTags" />
+      </span>
     </div>
   </div>
-  <div class="flex-h">
-    <ConditionTags :type="'TRACE'" @update="updateTags" />
-  </div>
+  <!--  <div class="flex-h">
+
+  </div>-->
 </template>
 <script lang="ts" setup>
 import { ref, reactive, watch, onUnmounted } from "vue";
@@ -210,6 +211,26 @@ function searchTraces() {
     paging: { pageNum: 1, pageSize: 20 },
   });
   queryTraces();
+}
+
+function clearSearch() {
+  clearCondition();
+  queryTraces();
+}
+function clearCondition() {
+  // status: { label: "All", value: "ALL" },
+  // instance: { value: "0", label: "All" },
+  // endpoint: { value: "0", label: "All" },
+  // service: { value: "", label: "" },
+  state.status = { label: "All", value: "ALL" };
+  state.instance = { value: "0", label: "All" };
+  state.endpoint = { value: "0", label: "All" };
+  state.service = { value: "", label: "" };
+  traceId.value = "";
+  minTraceDuration.value = ref<number>().value;
+  maxTraceDuration.value = ref<number>().value;
+  traceStore.resetState();
+  // tagsList.value=ref<string[]>([]).value;
 }
 async function queryTraces() {
   const res = await traceStore.getTraces();
